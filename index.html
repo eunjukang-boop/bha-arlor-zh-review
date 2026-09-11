@@ -1,0 +1,498 @@
+<title>AR-LOR Chinese Translation Review</title><style>
+  :root{
+    --bg:#F7F6FB; --surface:#FFFFFF; --surface-alt:#F1EFF8; --border:#E3DFF2;
+    --ink:#221F35; --muted:#8B87A6; --faint:#B3AFCB;
+    --accent:#655FA3; --accent-strong:#4E4880; --accent-soft:#EFEDFA;
+    --edited:#0F7A6C; --edited-bg:#E3F5F1; --edited-border:#9CD9CC;
+    --shadow: 0 1px 2px rgba(76,66,120,.06), 0 8px 24px -12px rgba(76,66,120,.18);
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#161320; --surface:#1E1B2B; --surface-alt:#252137; --border:#3A3450;
+      --ink:#EDEAF7; --muted:#A39DC4; --faint:#6D6790;
+      --accent:#9A92DE; --accent-strong:#C1BBEE; --accent-soft:#282442;
+      --edited:#4FCDB8; --edited-bg:#163530; --edited-border:#2C5E55;
+      --shadow: 0 1px 2px rgba(0,0,0,.3), 0 8px 24px -12px rgba(0,0,0,.5);
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#161320; --surface:#1E1B2B; --surface-alt:#252137; --border:#3A3450;
+    --ink:#EDEAF7; --muted:#A39DC4; --faint:#6D6790;
+    --accent:#9A92DE; --accent-strong:#C1BBEE; --accent-soft:#282442;
+    --edited:#4FCDB8; --edited-bg:#163530; --edited-border:#2C5E55;
+    --shadow: 0 1px 2px rgba(0,0,0,.3), 0 8px 24px -12px rgba(0,0,0,.5);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--bg); color:var(--ink);
+    font-family:"Franklin Gothic Medium","Franklin Gothic",Arial,sans-serif;
+    -webkit-font-smoothing:antialiased;
+    min-height:100vh;
+    display:flex; flex-direction:column;
+  }
+  .zh{ font-family:"Franklin Gothic Medium","Franklin Gothic","PingFang SC","Microsoft YaHei",Arial,sans-serif; }
+  .mono{ font-variant-numeric: tabular-nums; font-family: ui-monospace, "SF Mono", Consolas, monospace; }
+
+  /* ── Header ── */
+  header{
+    background:linear-gradient(135deg, var(--accent) 0%, var(--accent-strong) 100%);
+    padding:22px 24px 18px; color:#fff; flex-shrink:0;
+  }
+  .hd-row{ max-width:960px; margin:0 auto; display:flex; align-items:flex-start; justify-content:space-between; gap:16px; flex-wrap:wrap; }
+  .hd-title{ font-size:19px; font-weight:700; margin:0 0 4px; letter-spacing:.2px; }
+  .hd-sub{ font-size:12.5px; color:rgba(255,255,255,.82); margin:0; line-height:1.6; max-width:56ch; }
+  .hd-progress{ text-align:right; flex-shrink:0; }
+  .hd-progress .num{ font-size:24px; font-weight:700; }
+  .hd-progress .lbl{ font-size:10.5px; text-transform:uppercase; letter-spacing:1px; color:rgba(255,255,255,.75); margin-top:2px; }
+  .clear-link{ font-size:11px; color:rgba(255,255,255,.7); text-decoration:underline; cursor:pointer; margin-top:8px; }
+  .clear-link:hover{ color:#fff; }
+  .restore-banner{
+    max-width:960px; margin:12px auto 0; padding:9px 14px; border-radius:8px;
+    background:rgba(255,255,255,.16); color:#fff; font-size:12px; display:none;
+  }
+  .restore-banner.show{ display:block; }
+
+  /* ── Step tabs ── */
+  .steps-wrap{
+    position:sticky; top:0; z-index:5;
+    background:var(--surface); border-bottom:1px solid var(--border);
+    display:flex; align-items:stretch;
+  }
+  nav.steps{
+    flex:1; min-width:0;
+    display:flex; gap:4px; overflow-x:auto; padding:8px 8px;
+    scrollbar-width:thin; scroll-behavior:smooth;
+  }
+  nav.steps::-webkit-scrollbar{ height:5px; }
+  nav.steps::-webkit-scrollbar-thumb{ background:var(--border); border-radius:4px; }
+  .steps-arrow{
+    flex-shrink:0; width:34px; border:none; background:var(--surface);
+    color:var(--accent); font-size:20px; font-weight:700; cursor:pointer;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .steps-arrow:hover{ background:var(--surface-alt); }
+  .steps-arrow.left{ border-right:1px solid var(--border); }
+  .steps-arrow.right{ border-left:1px solid var(--border); }
+  .steps-arrow:disabled{ opacity:.3; cursor:default; background:var(--surface); }
+  .step-tab{
+    flex-shrink:0; display:flex; align-items:center; gap:6px;
+    padding:8px 13px; border-radius:8px; border:1px solid transparent;
+    font-size:12.5px; font-weight:600; color:var(--muted); cursor:pointer;
+    white-space:nowrap; background:transparent; transition:background .12s, color .12s;
+  }
+  .step-tab:hover{ background:var(--surface-alt); color:var(--ink); }
+  .step-tab.active{ background:var(--accent-soft); color:var(--accent-strong); border-color:var(--border); }
+  .step-tab .badge{
+    font-size:10px; font-weight:700; padding:1px 6px; border-radius:999px;
+    background:var(--edited-bg); color:var(--edited); min-width:16px; text-align:center;
+  }
+
+  /* ── Main ── */
+  main{ flex:1; max-width:760px; width:100%; margin:0 auto; padding:24px 20px 140px; }
+  .step-heading{ display:flex; align-items:baseline; justify-content:space-between; margin-bottom:4px; gap:12px; }
+  .step-heading h2{ font-size:16px; margin:0; font-weight:700; }
+  .step-count{ font-size:12px; color:var(--muted); white-space:nowrap; }
+  .step-note{ font-size:12px; color:var(--muted); margin:0 0 20px; line-height:1.6; }
+
+  .card{
+    background:var(--surface); border:1px solid var(--border); border-radius:10px;
+    padding:14px 16px 14px 14px; margin-bottom:10px;
+    display:flex; gap:12px; box-shadow:var(--shadow);
+    position:relative; transition:border-color .15s;
+  }
+  .card .rail{ width:3px; border-radius:3px; background:var(--border); flex-shrink:0; align-self:stretch; transition:background .15s; }
+  .card.edited .rail{ background:var(--edited); }
+  .card.edited{ border-color:var(--edited-border); }
+  .card-body{ flex:1; min-width:0; }
+  .ref-en{ font-size:13.5px; color:var(--ink); line-height:1.55; margin:0 0 9px; }
+  .zh-row{ display:flex; align-items:flex-start; gap:8px; }
+  .zh-input{
+    flex:1; min-width:0; resize:none; overflow:hidden;
+    border:1px solid transparent; border-radius:7px; background:var(--surface-alt);
+    color:var(--ink); font-size:15px; line-height:1.6; padding:8px 10px;
+    outline:none; transition:border-color .12s, background .12s;
+  }
+  .zh-input:focus{ border-color:var(--accent); background:var(--surface); }
+  .card.edited .zh-input{ background:var(--edited-bg); }
+  .reset-btn{
+    flex-shrink:0; width:26px; height:26px; border-radius:6px; border:1px solid var(--border);
+    background:var(--surface); color:var(--muted); cursor:pointer; font-size:13px;
+    display:flex; align-items:center; justify-content:center; visibility:hidden; margin-top:8px;
+  }
+  .card.edited .reset-btn{ visibility:visible; }
+  .reset-btn:hover{ color:var(--edited); border-color:var(--edited-border); }
+
+  /* ── Bottom bar ── */
+  .bottombar{
+    position:fixed; bottom:0; left:0; right:0; z-index:6;
+    background:var(--surface); border-top:1px solid var(--border);
+    padding:12px 20px; display:flex; align-items:center; justify-content:center; gap:14px;
+    box-shadow:0 -6px 20px -10px rgba(0,0,0,.15);
+  }
+  .bb-inner{ max-width:760px; width:100%; display:flex; align-items:center; gap:12px; }
+  .bb-nav{
+    display:flex; align-items:center; gap:8px; flex-shrink:0;
+  }
+  .btn{
+    border:1px solid var(--border); background:var(--surface); color:var(--ink);
+    border-radius:7px; padding:9px 14px; font-size:12.5px; font-weight:600; cursor:pointer;
+    font-family:inherit;
+  }
+  .btn:hover{ background:var(--surface-alt); }
+  .btn:disabled{ opacity:.4; cursor:not-allowed; }
+  .btn.primary{ background:var(--accent); border-color:var(--accent); color:#fff; }
+  .btn.primary:hover{ background:var(--accent-strong); border-color:var(--accent-strong); }
+  .bb-status{ flex:1; text-align:center; font-size:12px; color:var(--muted); }
+  .bb-status b{ color:var(--edited); }
+
+  /* ── Copy modal ── */
+  .overlay{
+    position:fixed; inset:0; background:rgba(20,16,32,.55); z-index:20;
+    display:none; align-items:center; justify-content:center; padding:24px;
+  }
+  .overlay.show{ display:flex; }
+  .modal{
+    background:var(--surface); border-radius:12px; max-width:640px; width:100%;
+    max-height:80vh; display:flex; flex-direction:column; box-shadow:var(--shadow);
+    border:1px solid var(--border);
+  }
+  .modal-hd{ padding:18px 22px; border-bottom:1px solid var(--border); display:flex; justify-content:space-between; align-items:center; }
+  .modal-hd h3{ margin:0; font-size:15px; }
+  .modal-close{ background:none; border:none; font-size:18px; color:var(--muted); cursor:pointer; line-height:1; }
+  .modal-body{ padding:16px 22px; overflow-y:auto; }
+  .modal-body textarea{
+    width:100%; height:280px; border:1px solid var(--border); border-radius:8px;
+    background:var(--surface-alt); color:var(--ink); font-family:ui-monospace,Consolas,monospace;
+    font-size:12px; line-height:1.6; padding:12px; resize:vertical;
+  }
+  .modal-hint{ font-size:11.5px; color:var(--muted); margin:0 0 10px; }
+  .modal-ft{ padding:14px 22px; border-top:1px solid var(--border); display:flex; justify-content:flex-end; gap:8px; }
+  .copied-flag{ font-size:12px; color:var(--edited); font-weight:700; opacity:0; transition:opacity .2s; }
+  .copied-flag.show{ opacity:1; }
+
+  .empty-state{ text-align:center; color:var(--muted); font-size:13px; padding:40px 0; }
+</style>
+
+<header>
+  <div class="hd-row">
+    <div>
+      <p class="hd-title">🀄 Chinese Translation Review</p>
+      <p class="hd-sub">This page collects every Chinese phrase shown on the Branksome Hall Asia Academic Records &amp; Recommendation online application, grouped by screen. The English text is shown for reference. If any Chinese phrase sounds off or is incorrect, click into the Chinese box below and edit it directly.</p>
+    </div>
+    <div class="hd-progress">
+      <div class="num mono"><span id="editedCount">0</span></div>
+      <div class="lbl">Edited</div>
+      <div class="clear-link" id="clearLink">Clear saved progress</div>
+    </div>
+  </div>
+  <p class="restore-banner" id="restoreBanner"></p>
+</header>
+
+<div class="steps-wrap">
+  <button class="steps-arrow left" id="stepsArrowLeft" aria-label="Scroll steps left">‹</button>
+  <nav class="steps" id="stepNav"></nav>
+  <button class="steps-arrow right" id="stepsArrowRight" aria-label="Scroll steps right">›</button>
+</div>
+
+<main>
+  <div class="step-heading">
+    <h2 id="stepTitle"></h2>
+    <span class="step-count mono" id="stepCount"></span>
+  </div>
+  <p class="step-note" id="stepNote"></p>
+  <div id="cardList"></div>
+</main>
+
+<div class="bottombar">
+  <div class="bb-inner">
+    <div class="bb-nav">
+      <button class="btn" id="prevBtn">← Previous</button>
+      <button class="btn" id="nextBtn">Next →</button>
+    </div>
+    <div class="bb-status" id="bbStatus"></div>
+    <button class="btn primary" id="copyBtn">Submit My Edits</button>
+  </div>
+</div>
+
+<div class="overlay" id="overlay">
+  <div class="modal">
+    <div class="modal-hd">
+      <h3 id="modalTitle">Submit Review</h3>
+      <button class="modal-close" id="closeModal">✕</button>
+    </div>
+    <div class="modal-body">
+      <p class="modal-hint" id="modalHint"></p>
+      <textarea id="resultText" readonly></textarea>
+    </div>
+    <div class="modal-ft">
+      <span class="copied-flag" id="copiedFlag">✓ Copied to clipboard</span>
+      <button class="btn" id="copyToClipboard">Also Copy to Clipboard</button>
+    </div>
+  </div>
+</div>
+
+<script>
+var STEPS = [{"key":"header","title":"0. Header & Intro","items":[{"en":"Academic Records & Recommendation Application","ko":"학적 서류 및 추천서 발급 신청서","zh":"学籍资料和推荐信申请表","pos":146857,"src":"attr"},{"en":"📋 How to Apply","ko":"📋 신청 방법 안내","zh":"📋 申请指南","pos":147241,"src":"attr"},{"en":"Fields marked with * are required.","ko":"* 표시는 필수 항목입니다.","zh":"标有 * 的为必填项。","pos":147399,"src":"attr"}]},{"key":"email","title":"1. Email Verification","items":[{"en":"Email","ko":"이메일","zh":"电子邮件","pos":147653,"src":"attr"},{"en":"Please use the email address registered in the school system to verify your identity.","ko":"학교 시스템에 등록된 이메일 주소로 본인 인증을 진행해 주세요.","zh":"请使用在学校系统中注册的电子邮件地址进行身份验证。","pos":147831,"src":"attr"},{"en":"Send Code","ko":"인증코드 발송","zh":"发送验证码","pos":148657,"src":"attr"},{"en":"Required","ko":"필수 항목","zh":"必填项","pos":148800,"src":"attr"}]},{"key":"fallback","title":"1b. Student ID + DOB Fallback","items":[{"en":"Email address could not be verified. Please verify your identity using your Student ID and date of birth.","ko":"이메일 주소가 확인되지 않았습니다. 학번과 생년월일로 본인 확인을 진행해 주세요.","zh":"邮箱地址无法确认，请使用学号和出生日期进行身份验证。","pos":149071,"src":"attr"},{"en":"Student ID","ko":"학번","zh":"学号","pos":149479,"src":"attr"},{"en":"Required","ko":"필수 항목","zh":"必填项","pos":149749,"src":"attr"},{"en":"Don't know the Student ID? Please contact Student Records (studentrecord@branksome.asia / 064-902-5014).","ko":"학번을 모르시나요? Student Records(studentrecord@branksome.asia / 064-902-5014)로 문의해 주세요.","zh":"不知道学号？请联系 Student Records（studentrecord@branksome.asia / 064-902-5014）。","pos":149891,"src":"attr"},{"en":"Date of Birth","ko":"생년월일","zh":"出生日期","pos":150369,"src":"attr"},{"en":"Continue","ko":"계속하기","zh":"继续","pos":151059,"src":"attr"}]},{"key":"code","title":"2. Verification Code","items":[{"en":"Verification Code","ko":"인증코드","zh":"验证码","pos":151344,"src":"attr"},{"en":"Verify","ko":"확인","zh":"验证","pos":151726,"src":"attr"},{"en":"Check your email for the 6-digit code. Valid for 10 minutes.","ko":"이메일로 발송된 6자리 코드를 입력하세요. 10분 내 유효합니다.","zh":"请查收邮件中的6位验证码，10分钟内有效。","pos":151886,"src":"attr"},{"en":"Check your spam/junk folder first. ","ko":"먼저 스팸/정크 메일함을 확인해 주세요. ","zh":"请先检查垃圾邮件文件夹。 ","pos":152180,"src":"attr"},{"en":"Still no code? Verify with Student ID →","ko":"그래도 못 받으셨나요? 학번으로 인증하기 →","zh":"仍未收到？改用学号验证 →","pos":152440,"src":"attr"},{"en":"↺ Start over","ko":"↺ 처음으로 돌아가기","zh":"↺ 重新开始","pos":152841,"src":"attr"}]},{"key":"studentid","title":"3. Student ID Confirmation (2FA)","items":[{"en":"Email verified. For security, please enter the 5-digit Student ID of the child you are applying for.","ko":"이메일 인증이 완료되었습니다. 보안을 위해 신청하실 자녀의 학번(5자리)을 입력해 주세요.","zh":"邮箱验证成功。出于安全考虑，请输入申请学生的5位学号。","pos":153133,"src":"attr"},{"en":"Student ID","ko":"학번","zh":"学号","pos":153487,"src":"attr"},{"en":"Add","ko":"추가","zh":"添加","pos":153922,"src":"attr"},{"en":"Don't know the Student ID? Please contact Student Records (studentrecord@branksome.asia / 064-902-5014).","ko":"학번을 모르시나요? Student Records(studentrecord@branksome.asia / 064-902-5014)로 문의해 주세요.","zh":"不知道学号？请联系 Student Records（studentrecord@branksome.asia / 064-902-5014）。","pos":154154,"src":"attr"},{"en":"Continue →","ko":"계속하기 →","zh":"继续 →","pos":154806,"src":"attr"}]},{"key":"staff","title":"3b. Staff Student Lookup","items":[{"en":"Staff verified. Enter the student's ID to look up their information.","ko":"직원 인증이 완료되었습니다. 학번을 입력하여 학생 정보를 조회해 주세요.","zh":"员工验证成功，请输入学号查询学生信息。","pos":155070,"src":"attr"},{"en":"Student ID","ko":"학번","zh":"学号","pos":155390,"src":"attr"},{"en":"Look up","ko":"조회","zh":"查询","pos":155736,"src":"attr"}]},{"key":"select","title":"4. Confirm Student(s)","items":[{"en":"Select Student","ko":"학생정보","zh":"选择学生","pos":156108,"src":"attr"},{"en":"-- Select a student --","ko":"-- 학생을 선택하세요 --","zh":"-- 请选择学生 --","pos":156333,"src":"attr"},{"en":"Please select a student","ko":"학생을 선택해 주세요","zh":"请选择学生","pos":156621,"src":"attr"},{"en":"+ Add another child","ko":"+ 다른 자녀 추가","zh":"+ 添加其他子女","pos":156926,"src":"attr"}]},{"key":"consent","title":"5. Consent","items":[{"en":"Processing Time & Important Notes","ko":"처리 기간 및 유의사항","zh":"处理时间与重要说明","pos":157160,"src":"attr"},{"en":"<b>[Processing Time and Important Notes]</b><br><span style='color:#888;font-size:12px;'>※ Please note that processing may take additional time during school holidays and peak academic periods. We kindly advise submitting your request in advance.</span><br>• <b>Academic Records:</b> 1–2 business days<br>• <b>Letters of Recommendation:</b> Minimum 1 week<br>• <b>Transcripts (G9–G12):</b> Please contact the University Counselling Office directly (universitycounselling@branksome.asia).<br><br><b>[Consent for Personal Information Collection, Use, and Information Sharing]</b><br>• <b>Consent to Collection and Use:</b> Submitting this form constitutes your consent to the collection and use of personal information for processing academic records and recommendation letters.<br>• <b>Internal Information Sharing:</b> The submitted information will automatically be shared with the designated School PA (JS: Youngli Kim, MS: Diana Park, SS: SunA Kim) for processing. If necessary for administrative purposes, it may also be shared with the Principal, relevant faculty, and administrative staff.<br>• <b>External Recipient Verification:</b> Requested documents will be sent directly to the designated recipient. However, if the recipient's email belongs to an external school or institution, we will contact the parent/guardian via phone or email for verification prior to sending.","ko":"<b>[발급 처리 기간 및 유의사항]</b><br><span style='color:#888;font-size:12px;'>※ 방학 및 주요 학사 일정 기간에는 서류 처리가 추가 소요될 수 있으니 사전에 신청해 주시기 바랍니다.</span><br>• <b>일반 학적 서류:</b> 업무일 기준 1–2일 소요<br>• <b>교사 추천서:</b> 최소 1주일 이상 소요<br>• <b>성적표 (G9–G12):</b> 대학 진학 상담실(universitycounselling@branksome.asia)로 별도 문의 바랍니다.<br><br><b>[개인정보 수집·이용 및 정보 공유 동의]</b><br>• <b>개인정보 수집·이용 동의:</b> 본 신청서 제출 시, 학적 서류 및 추천서 발급 업무 처리를 위한 개인정보 수집 및 이용에 동의하신 것으로 간주됩니다.<br>• <b>학내 정보 공유:</b> 제출된 정보는 처리를 위해 담당 행정 직원(JS: 김영리, MS: 다이애나 박, SS: 김선아)에게 자동 공유되며, 학교 업무상 필요하다고 판단되는 경우 학교장, 담당 교원 및 관계 행정 담당자에게 공유될 수 있습니다.<br>• <b>외부 수신자 확인:</b> 신청된 서류는 지정된 수신처로 직접 발송됩니다. 단, 수신처의 이메일 주소가 외부 학교 또는 기관에 해당하는 경우, 발송 전 학부모/보호자님께 전화 또는 이메일로 확인 절차를 거칩니다.","zh":"<b>【发放处理时间及注意事项】</b><br><span style='color:#888;font-size:12px;'>※ 学校假期及主要学事日程期间，文件处理可能需要额外时间，请提前申请。</span><br>• <b>学籍文件：</b>工作日1–2天<br>• <b>教师推荐信：</b>至少1周以上<br>• <b>成绩单（G9–G12）：</b>请直接联系大学升学咨询室（universitycounselling@branksome.asia）。<br><br><b>【个人信息收集、使用及信息共享同意】</b><br>• <b>个人信息收集·使用同意：</b>提交本申请表即视为您同意为处理学籍文件及推荐信发放业务而收集和使用个人信息。<br>• <b>校内信息共享：</b>提交的信息将自动与负责的行政人员（JS: Youngli Kim，MS: Diana Park，SS: SunA Kim）共享，以便处理，并可能在学校认为业务上有必要时与校长、相关教师及相关行政人员共享。<br>• <b>外部收件人核实：</b>申请的文件将直接发送至指定收件人。但如果收件人的电子邮箱地址属于外部学校或机构，我们将在发送前通过电话或电子邮件与家长/监护人核实。","pos":157330,"src":"attr"},{"en":"I confirm that I understand the above information.","ko":"네, 위의 내용을 이해했습니다.","zh":"是的，我理解上述内容。","pos":162066,"src":"attr"},{"en":"Required","ko":"필수 항목","zh":"必填项","pos":162339,"src":"attr"},{"en":"Academic Details","ko":"학업 정보","zh":"学业信息","pos":162867,"src":"attr"},{"en":"Student Grade Level","ko":"학년","zh":"年级","pos":163016,"src":"attr"},{"en":"For withdrawn students, please select the last grade level at BHA.","ko":"퇴교생의 경우, 재학 당시 마지막 학년을 선택해 주세요.","zh":"如果您已退学，请选择您在BHA就读时的最后年级。","pos":163219,"src":"attr"},{"en":"Homeroom / Advisor Teacher Name","ko":"담임선생님/어드바이저선생님 이름","zh":"班主任/辅导员老师姓名","pos":165036,"src":"attr"}]},{"key":"reason","title":"6. Reason for Request","items":[{"en":"Reason for Request","ko":"발급 사유","zh":"申请原因","pos":165539,"src":"attr"},{"en":"Please select the reason for requesting","ko":"발급 사유를 선택해 주세요","zh":"请选择申请报告的原因","pos":165692,"src":"attr"},{"en":"Apply to Another School","ko":"타학교 입학 지원","zh":"申请其他学校","pos":166034,"src":"attr"},{"en":"Visa / ARC","ko":"비자 / 외국인등록증","zh":"签证 / 外国人登录证","pos":166246,"src":"attr"},{"en":"Government/Public Office","ko":"관공서 제출","zh":"政府/公共机构提交","pos":166453,"src":"attr"},{"en":"Competition Participation","ko":"대회 참가","zh":"竞赛参与","pos":166682,"src":"attr"},{"en":"School Insurance","ko":"학교 보험","zh":"学校保险","pos":166898,"src":"attr"},{"en":"Other","ko":"기타","zh":"其他","pos":167085,"src":"attr"},{"en":"Required","ko":"필수 항목","zh":"必填项","pos":167204,"src":"attr"}]},{"key":"records","title":"7. Document Type & Recommendation","items":[{"en":"Records Requested","ko":"요청 서류 종류","zh":"申请资料类型","pos":167394,"src":"attr"},{"en":"Report Card Notice (Currently Enrolled Students Only): If you only need report cards, please log in to ManageBac using a student or parent account to download them directly.","ko":"리포트 카드 안내 (재학생인 경우): 리포트 카드만 필요하신 경우, 학생 또는 학부모 계정으로 ManageBac에 로그인하여 직접 다운로드하시기 바랍니다.","zh":"成绩单提示（仅限在读学生）：如果只需要成绩单，请使用学生或家长账号登录 ManageBac 自行下载。","pos":167517,"src":"attr"},{"en":"Please select the record(s) you require (multiple selections allowed)","ko":"원하시는 서류의 종류를 선택해 주세요 (복수 선택 가능)","zh":"请选择您需要的学术资料类别（可多选）","pos":168155,"src":"attr"},{"en":"Certificate of Enrollment","ko":"재학증명서","zh":"在读证明","pos":168594,"src":"attr"},{"en":"Report Cards","ko":"리포트 카드","zh":"成绩单","pos":168813,"src":"attr"},{"en":"Period to be included","ko":"발급 적용 기간","zh":"涵盖时间范围","pos":169166,"src":"attr"},{"en":"Full Academic History","ko":"전체 기간","zh":"完整学业记录","pos":169427,"src":"attr"},{"en":"Last 3 Years","ko":"최근 3년","zh":"最近三年","pos":169609,"src":"attr"},{"en":"Last 2 Years","ko":"최근 2년","zh":"最近两年","pos":169771,"src":"attr"},{"en":"Last 1 Year","ko":"최근 1년","zh":"最近一年","pos":169932,"src":"attr"},{"en":"Required","ko":"필수 항목","zh":"必填项","pos":170076,"src":"attr"},{"en":"Recommendation Letter","ko":"추천서","zh":"推荐信","pos":170362,"src":"attr"},{"en":"Minimum 1 week processing. If deadline is less than 7 days away, request may be rejected.","ko":"최소 1주일 처리 기간 필요. 마감일이 7일 미만인 경우 반려될 수 있습니다.","zh":"至少需要1周处理时间。截止日期不足7天可能被拒绝。","pos":170800,"src":"attr"},{"en":"For confidentiality and fairness, recommendations cannot be sent directly to parents. Please be sure to confirm the exact email address of the receiving institution or school.<br><br>If the receiving institution or school has its own submission form, please email it to the relevant School PA as soon as this application is submitted. If no such form is sent, or if no dedicated form exists, Branksome Hall Asia's standard letterhead bearing the official school logo will be used.","ko":"기밀성과 공정성을 확보하기 위해 추천서는 학부모님께 직접 발송할 수 없습니다. 수신 기관 및 학교의 정확한 이메일 주소를 반드시 확인해 주시기 바랍니다.<br><br>기관 및 학교의 별도 제출 양식이 있다면, 본 신청서 제출 즉시 해당 스쿨 PA에게 이메일로 전달해 주셔야 합니다. 별도 양식을 보내지 않으시거나 전용 양식이 없는 경우에는 브랭섬홀 아시아의 공식 로고가 포함된 일반 레터헤드 서식이 적용됩니다.","zh":"为确保保密性与公正性，推荐信不能直接发送给家长。请务必确认接收机构或学校的准确电子邮箱地址。<br><br>如接收机构或学校有专用提交表格，请在提交本申请后立即将该表格通过邮件发送至相应的 School PA。如未发送专用表格，或没有专用表格，将采用带有布兰克森霍尔亚洲官方校徽的标准信头格式。","pos":171194,"src":"attr"},{"en":"Teacher's Name and Subject","ko":"추천서를 요청할 교사 이름과 과목","zh":"교사 이름 및 과목","pos":172572,"src":"attr"},{"en":"Submission Deadline","ko":"제출 마감일","zh":"提交截止日期","pos":173053,"src":"attr"},{"en":"Applying School","ko":"지원 학교","zh":"申请学校","pos":173872,"src":"attr"},{"en":"Other","ko":"기타","zh":"其他","pos":174544,"src":"attr"},{"en":"The NLCS Jeju recommendation form will be automatically included in the notification email sent to our team. No upload required.","ko":"NLCS Jeju 추천서 양식이 담당자 알림 이메일에 자동으로 포함되어 발송됩니다. 별도 업로드 불필요합니다.","zh":"NLCS Jeju推荐信表格将自动附在发送给工作人员的通知邮件中，无需上传。","pos":175240,"src":"attr"},{"en":"To request a recommendation from a Branksome Hall Asia teacher, please register the teacher's email address in the receiving school's application portal. The receiving school will then send the recommendation link directly to the teacher. After registering the email, please be sure to contact the School PA to let them know.","ko":"브랭섬홀아시아 선생님께 추천서를 요청하시려면 지원 학교 포털에 선생님 이메일을 등록해 주세요. 등록된 정보를 통해 학교 측에서 선생님께 직접 추천서 링크를 보내게 됩니다. 이메일 등록을 완료하신 후에는 반드시 School PA에게 연락하여 해당 사실을 알려주세요.","zh":"如需向布兰克森霍尔亚洲老师申请推荐信，请在申请学校的门户网站上登记老师的邮箱地址。该学校将直接向老师发送推荐信链接。登记完成后，请务必联系 School PA 告知此事。","pos":175874,"src":"attr"},{"en":"Please register the teacher's email address in the receiving school's application portal. The receiving school will then send the recommendation link directly to the teacher. After registering the email, please be sure to contact the School PA to let them know. If the receiving institution or school has a separate submission form instead of an online system, please email it to the relevant School PA as soon as this application is submitted. If no such form is sent, or if no dedicated form exists, Branksome Hall Asia's standard letterhead bearing the official school logo will be used.","ko":"지원 학교 포털에 선생님 이메일을 등록해 주세요. 등록된 정보를 통해 학교 측에서 선생님께 직접 추천서 링크를 보내게 됩니다. 이메일 등록을 완료하신 후에는 반드시 School PA에게 연락하여 해당 사실을 알려주세요. 온라인 방식이 아닌 기관 및 학교의 별도 제출 양식이 있다면, 본 신청서 제출 즉시 해당 스쿨 PA에게 이메일로 전달해 주셔야 합니다. 별도 양식을 보내지 않으시거나 전용 양식이 없는 경우에는 브랭섬홀 아시아의 공식 로고가 포함된 일반 레터헤드 서식이 적용됩니다.","zh":"请在申请学校的门户网站上登记老师的邮箱地址。该学校将直接向老师发送推荐信链接。登记完成后，请务必联系 School PA 告知此事。如接收机构或学校有专用提交表格（非在线方式），请在提交本申请后立即将该表格通过邮件发送至相应的 School PA。如未发送专用表格，或没有专用表格，将采用带有布兰克森霍尔亚洲官方校徽的标准信头格式。","pos":176971,"src":"attr"},{"en":"Please select at least one","ko":"최소 하나 선택","zh":"请至少选择一项","pos":178965,"src":"attr"}]},{"key":"transfer","title":"8. Transfer Information","items":[{"en":"Transfer Information","ko":"전학/퇴교 정보","zh":"转学信息","pos":179261,"src":"attr"},{"en":"Name of the school you are applying to","ko":"지원 학교명","zh":"申请学校名称","pos":179415,"src":"attr"},{"en":"Required","ko":"필수 항목","zh":"必填项","pos":179723,"src":"attr"},{"en":"Please explain why you chose this school and why you want to transfer from BHA","ko":"지원 학교를 선택한 이유와 BHA에서 전학/퇴교를 결심하게 된 이유를 상세하게 기재해주세요","zh":"请说明您选择这所学校的原因，以及您想从 BHA 转学的原因","pos":179863,"src":"attr"},{"en":"Expected withdrawal date from Branksome Hall Asia","ko":"브랭섬홀아시아 예상 퇴교 날짜","zh":"请提供学生的预计离校日期","pos":180733,"src":"attr"},{"en":"Expected start date at the selected school","ko":"지원 학교의 예상 입학 날짜","zh":"预期入学日期","pos":181547,"src":"attr"}]},{"key":"delivery","title":"9. Delivery Method & Submit","items":[{"en":"Delivery Method","ko":"발급 방법","zh":"报告发放方式","pos":182402,"src":"attr"},{"en":"If you select Online Submission, the document will be sent directly to the recipient's email or school system.","ko":"온라인 발송 선택 시, 문서는 수신자 이메일 또는 학교 시스템으로 직접 발송됩니다.","zh":"选择在线提交后，文件将直接发送至收件人邮箱或学校系统。","pos":182518,"src":"attr"},{"en":"Please select the preferred delivery method","ko":"발급 방법을 선택해주세요","zh":"请选择报告发放方式","pos":182966,"src":"attr"},{"en":"Online Submission (System / Email)","ko":"온라인 발송(시스템/이메일)","zh":"在线提交(系统/邮箱)","pos":183325,"src":"attr"},{"en":"Pick-up from School Center Reception","ko":"스쿨센터 리셉션에서 직접 수령","zh":"在学校（学生服务中心前台）直接领取","pos":183598,"src":"attr"},{"en":"Required","ko":"필수 항목","zh":"必填项","pos":183810,"src":"attr"},{"en":"Printing Option","ko":"인쇄 방법","zh":"印刷方式","pos":183996,"src":"attr"},{"en":"Please select the preferred printing option","ko":"인쇄 방법을 선택해주세요","zh":"请选择印刷方式","pos":184143,"src":"attr"},{"en":"Single-sided","ko":"단면 출력","zh":"单面打印","pos":184449,"src":"attr"},{"en":"Double-sided","ko":"양면 출력","zh":"双面打印","pos":184606,"src":"attr"},{"en":"Email Recipient Information","ko":"이메일 수신자 정보","zh":"电子邮件收件人信息","pos":184937,"src":"attr"},{"en":"Recipient Name / Affiliation","ko":"수신자 이름/소속","zh":"收件人姓名/所属机构","pos":185118,"src":"attr"},{"en":"Recipient Email Address","ko":"수신자 또는 지원 학교 입학처 이메일 주소","zh":"收件人或申请学校招生处邮箱地址","pos":185524,"src":"attr"},{"en":"Additional Requests / Notes","ko":"요청사항 / 특이사항","zh":"其他要求 / 备注","pos":185942,"src":"attr"}]},{"key":"system","title":"10. System Messages (JS validation/errors)","items":[{"en":"completed","ko":"완료","zh":"已完成","pos":193110,"src":"inline"},{"en":"Please enter your email address.","ko":"이메일 주소를 입력해 주세요.","zh":"请输入邮箱地址。","pos":193428,"src":"inline"},{"en":"Sending...","ko":"발송 중...","zh":"发送中...","pos":193659,"src":"inline"},{"en":"✓ Code sent! Check your email.","ko":"✓ 인증코드가 발송되었습니다. 이메일을 확인해 주세요.","zh":"✓ 验证码已发送，请查收邮件。","pos":194368,"src":"inline"},{"en":"Resend","ko":"재발송","zh":"重新发送","pos":194535,"src":"inline"},{"en":"This student has withdrawn from BHA. Please contact studentrecord@branksome.asia directly for assistance.","ko":"퇴교 처리된 학생입니다. studentrecord@branksome.asia로 직접 문의해 주세요.","zh":"该学生已退学，请直接联系 studentrecord@branksome.asia。","pos":194719,"src":"inline"},{"en":"Send Code","ko":"인증코드 발송","zh":"发送验证码","pos":195042,"src":"inline"},{"en":"Too many attempts. Please try again in a few minutes.","ko":"시도 횟수가 너무 많습니다. 잠시 후 다시 시도해 주세요.","zh":"尝试次数过多，请稍后再试。","pos":195334,"src":"inline"},{"en":"Failed to send. Please try again.","ko":"발송에 실패했습니다. 다시 시도해 주세요.","zh":"发送失败，请重试。","pos":196097,"src":"inline"},{"en":"Network error. Please try again.","ko":"네트워크 오류가 발생했습니다. 다시 시도해 주세요.","zh":"网络错误，请重试。","pos":197007,"src":"inline"},{"en":"Verifying...","ko":"확인 중...","zh":"验证中...","pos":197740,"src":"inline"},{"en":"Verify","ko":"확인","zh":"验证","pos":198159,"src":"inline"},{"en":"Verified!","ko":"인증 완료!","zh":"验证成功！","pos":198294,"src":"inline"},{"en":"Incorrect code. Please try again.","ko":"인증코드가 올바르지 않습니다.","zh":"验证码不正确，请重试。","pos":198871,"src":"inline"},{"en":"Code expired. Please request a new code.","ko":"인증코드가 만료되었습니다. 재발송해 주세요.","zh":"验证码已过期，请重新发送。","pos":199052,"src":"inline"},{"en":"Please enter a valid Student ID.","ko":"유효한 학번을 입력해 주세요.","zh":"请输入有效的学号。","pos":200258,"src":"inline"},{"en":"This student has already been added.","ko":"이미 추가된 학생입니다.","zh":"该学生已添加。","pos":200554,"src":"inline"},{"en":"Checking...","ko":"확인 중...","zh":"查询中...","pos":200811,"src":"inline"},{"en":"No response from the server. Please check your connection and try again.","ko":"서버 응답이 없습니다. 네트워크 상태를 확인하고 다시 시도해 주세요.","zh":"服务器无响应，请检查网络后重试。","pos":201248,"src":"inline"},{"en":"Your email verification has expired. Please verify your email again.","ko":"이메일 인증이 만료되었습니다. 이메일 인증을 다시 진행해 주세요.","zh":"邮箱验证已过期，请重新验证邮箱。","pos":202203,"src":"inline"},{"en":"Verify again →","ko":"다시 인증하기 →","zh":"重新验证 →","pos":202499,"src":"inline"},{"en":"Student ID does not match. Please check and try again.","ko":"학번이 일치하지 않습니다. 다시 확인해 주세요.","zh":"学号不匹配，请重新确认。","pos":202662,"src":"inline"},{"en":"Looking up...","ko":"조회 중...","zh":"查询中...","pos":206278,"src":"inline"},{"en":"Student not found. Please check the ID.","ko":"학생을 찾을 수 없습니다. 학번을 확인해 주세요.","zh":"未找到该学生，请核对学号。","pos":207072,"src":"inline"},{"en":"Please select your date of birth.","ko":"생년월일을 선택해 주세요.","zh":"请选择出生日期。","pos":208682,"src":"inline"},{"en":"Student ID or date of birth does not match. Please try again.","ko":"학번 또는 생년월일이 일치하지 않습니다. 다시 확인해 주세요.","zh":"学号或出生日期不匹配，请重新确认。","pos":210466,"src":"inline"},{"en":"If you need help, please contact Student Records (studentrecord@branksome.asia / 064-902-5014).","ko":"도움이 필요하시면 Student Records(studentrecord@branksome.asia / 064-902-5014)로 문의해 주세요.","zh":"如需帮助，请联系 Student Records（studentrecord@branksome.asia / 064-902-5014）。","pos":210631,"src":"inline"},{"en":"-- Select a student --","ko":"-- 학생을 선택하세요 --","zh":"-- 请选择学生 --","pos":211633,"src":"inline"},{"en":"Select All","ko":"전체 선택","zh":"全部选择","pos":212543,"src":"inline"},{"en":"Please select at least one student","ko":"학생을 선택해 주세요","zh":"请选择至少一名学生","pos":213417,"src":"inline"},{"en":"Currently Enrolled","ko":"재학중","zh":"在读","pos":213648,"src":"inline"},{"en":"Graduated","ko":"졸업","zh":"毕业","pos":213749,"src":"inline"},{"en":"Withdrawn","ko":"퇴교","zh":"退学","pos":213840,"src":"inline"},{"en":"Unknown","ko":"알 수 없음","zh":"未知","pos":213913,"src":"inline"},{"en":"Cannot select all: enrolled and withdrawn/graduated students cannot be submitted together. Please select individually.","ko":"전체 선택 불가: 재학생과 퇴교/졸업생은 함께 신청할 수 없습니다. 개별 선택해 주세요.","zh":"无法全选：在读与退学/毕业学生不能同时申请，请单独选择。","pos":214424,"src":"inline"},{"en":"Cannot submit together: enrolled and withdrawn/graduated students","ko":"재학생과 퇴교/졸업생은 함께 신청할 수 없습니다","zh":"在读与退学/毕业学生不能同时申请","pos":215821,"src":"inline"},{"en":"student(s) selected — Continue →","ko":"명 신청하기 →","zh":"名学生 — 继续 →","pos":216373,"src":"inline"},{"en":"Grade","ko":"학년","zh":"年级","pos":218028,"src":"inline"},{"en":"Status","ko":"재학상태","zh":"状态","pos":218116,"src":"inline"},{"en":"Homeroom","ko":"담임","zh":"班主任","pos":218221,"src":"inline"},{"en":"Submitting for","ko":"신청 대상","zh":"申请对象","pos":218344,"src":"inline"},{"en":"Date of Enrollment","ko":"입학일","zh":"入学日期","pos":220736,"src":"inline"},{"en":"Year","ko":"년","zh":"年","pos":222777,"src":"inline"},{"en":"Month","ko":"월","zh":"月","pos":223210,"src":"inline"},{"en":"Day","ko":"일","zh":"日","pos":223952,"src":"inline"},{"en":"Submission Deadline","ko":"제출 마감일","zh":"提交截止日期","pos":228858,"src":"inline"},{"en":"Applying School","ko":"지원 학교","zh":"申请学校","pos":228934,"src":"inline"},{"en":"Other","ko":"기타","zh":"其他","pos":229007,"src":"inline"},{"en":"Required","ko":"필수 항목","zh":"必填项","pos":229063,"src":"inline"},{"en":"The NLCS Jeju recommendation form will be automatically included in the notification email sent to our team. No upload required.","ko":"NLCS Jeju 추천서 양식이 담당자 알림 이메일에 자동으로 포함되어 발송됩니다. 별도 업로드 불필요합니다.","zh":"NLCS Jeju推荐信表格将自动附在发送给工作人员的通知邮件中，无需上传。","pos":229130,"src":"inline"},{"en":"Please agree to the terms above.","ko":"위의 내용에 동의해 주세요.","zh":"请同意以上条款。","pos":238201,"src":"inline"},{"en":"Please enter your email address.","ko":"이메일 주소를 입력해 주세요.","zh":"请输入您的电子邮件地址。","pos":238395,"src":"inline"},{"en":"Please select a student.","ko":"학생을 선택해 주세요.","zh":"请选择学生。","pos":238717,"src":"inline"},{"en":"Please select at least one record type.","ko":"최소 하나의 서류 종류를 선택해 주세요.","zh":"请至少选择一种学术资料类别。","pos":239007,"src":"inline"},{"en":"Please select the period.","ko":"기간을 선택해 주세요.","zh":"请选择时间范围。","pos":239255,"src":"inline"},{"en":"Please select the reason for requesting.","ko":"발급 사유를 선택해 주세요.","zh":"请选择申请原因。","pos":239451,"src":"inline"},{"en":"Please select or enter the teacher name and subject.","ko":"교사 이름과 과목을 선택하거나 입력해 주세요.","zh":"请选择或填写教师姓名及科目。","pos":240965,"src":"inline"},{"en":"Please enter the submission deadline.","ko":"제출 마감일을 입력해 주세요.","zh":"请输入提交截止日期。","pos":241231,"src":"inline"},{"en":"Please select the applying school.","ko":"지원 학교를 선택해 주세요.","zh":"请选择申请学校。","pos":241487,"src":"inline"},{"en":"Please explain why you want to transfer.","ko":"전학/퇴교 이유를 입력해 주세요.","zh":"请说명转학원因。","pos":242316,"src":"inline"},{"en":"Please enter the expected withdrawal date.","ko":"예상 퇴교 날짜를 입력해 주세요.","zh":"请输入预计离校日期。","pos":242613,"src":"inline"},{"en":"Please enter the expected start date at the new school.","ko":"지원 학교의 예상 입학 날짜를 입력해 주세요.","zh":"请输入新学校的预期入学日期。","pos":242852,"src":"inline"},{"en":"Please select the delivery method.","ko":"발급 방법을 선택해 주세요.","zh":"请选择发放方式。","pos":243115,"src":"inline"},{"en":"Please select the printing option.","ko":"인쇄 방법을 선택해 주세요.","zh":"请选择印刷方式。","pos":243366,"src":"inline"},{"en":"Please enter the recipient name.","ko":"수신자 이름을 입력해 주세요.","zh":"请输入收件人姓名。","pos":243601,"src":"inline"},{"en":"Please enter the recipient email address.","ko":"수신자 이메일 주소를 입력해 주세요.","zh":"请输入收件人邮箱地址。","pos":243831,"src":"inline"},{"en":"Submitting...","ko":"제출 중...","zh":"提交中...","pos":246681,"src":"inline"},{"en":"Submit","ko":"제출","zh":"提交","pos":247072,"src":"inline"},{"en":"Submission failed. Please try again.","ko":"제출에 실패했습니다.","zh":"提交失败，请重试。","pos":247137,"src":"inline"},{"en":"Some submissions failed: ","ko":"일부 제출 실패: ","zh":"部分提交失败: ","pos":249713,"src":"inline"}]},{"key":"success","title":"11. Success Screen","items":[{"en":"students","ko":"명","zh":"名学生","pos":251206,"src":"inline"},{"en":"Your request has been submitted successfully.","ko":"신청이 완료되었습니다. 감사합니다.","zh":"提交成功，谢谢。","pos":251579,"src":"inline"},{"en":"A confirmation email has been sent to your email address.","ko":"입력하신 이메일로 확인 메일이 발송되었습니다.","zh":"确认邮件已发送至您的电子邮件地址。","pos":251775,"src":"inline"},{"en":"Submit another request","ko":"새 신청서 제출","zh":"提交新申请","pos":252248,"src":"inline"},{"en":"Submit for another student","ko":"다른 학생 신청하기","zh":"为另一位学生申请","pos":252644,"src":"inline"},{"en":"Add another child","ko":"다른 자녀 추가로 신청하기","zh":"添加其他子女申请","pos":252962,"src":"inline"}]},{"key":"guide","title":"12. How-to-Apply Guide","items":[{"en":"How to Apply — Step-by-Step Guide","ko":"신청 방법 단계별 안내","zh":"申请指南 · 逐步说明","pos":266645,"src":"attr"},{"en":"Before You Begin","ko":"신청 전 확인사항","zh":"申请前须知","pos":266971,"src":"attr"},{"en":"What you need","ko":"준비물","zh":"所需准备","pos":267142,"src":"attr"},{"en":"Registered email (parent/guardian or student) and your child's 5-digit Student ID","ko":"등록된 이메일 (학부모/보호자 또는 학생) 및 자녀의 학번(5자리)","zh":"已注册邮箱（家长/监护人或学生）及子女的5位学号","pos":267227,"src":"attr"},{"en":"For LOR requests","ko":"추천서 신청 시","zh":"推荐信申请","pos":267512,"src":"attr"},{"en":"Teacher's name & subject, applying school, submission deadline (NLCS Jeju: form auto-attached, no prep needed)","ko":"교사 이름·과목, 지원 학교명, 제출 마감일 (NLCS Jeju는 양식 자동 첨부, 별도 준비 불필요)","zh":"教师姓名及科目、申请学校名称、提交截止日期（NLCS Jeju 表格自动附加，无需准备）","pos":267611,"src":"attr"},{"en":"Academic Records","ko":"일반 학적 서류","zh":"学籍资料","pos":267989,"src":"attr"},{"en":"1–2 business days","ko":"1–2 업무일","zh":"1–2工作日","pos":268087,"src":"attr"},{"en":"Recommendation Letter","ko":"추천서","zh":"推荐信","pos":268230,"src":"attr"},{"en":"1 week minimum","ko":"최소 1주 이상","zh":"至少1周","pos":268322,"src":"attr"},{"en":"⚠️ Processing may take longer during school holidays. G9–G12 Transcripts: contact universitycounselling@branksome.asia directly.","ko":"⚠️ 방학 및 학사 일정 기간에는 처리 기간이 더 소요될 수 있습니다. G9–G12 성적표: universitycounselling@branksome.asia 로 직접 문의.","zh":"⚠️ 学校假期期间处理时间可能延长。G9–G12成绩单请直接联系 universitycounselling@branksome.asia。","pos":268463,"src":"attr"},{"en":"Steps","ko":"신청 단계","zh":"申请步骤","pos":268987,"src":"attr"},{"en":"Email Verification","ko":"이메일 인증","zh":"邮箱验证","pos":269197,"src":"attr"},{"en":"Enter your registered email and tap [Send Code].","ko":"학교에 등록된 이메일을 입력하고 [인증코드 발송]을 누르세요.","zh":"输入注册邮箱，点击【发送验证码】。","pos":269297,"src":"attr"},{"en":"Don't know your registered email? Tap [Send Code] — if the email isn't registered, the Student ID verification screen appears automatically. Use 5-digit ID + date of birth.","ko":"등록 이메일을 모른다면? [인증코드 발송]을 눌렀을 때 등록되지 않은 이메일이면 학번 인증 화면이 자동으로 나타납니다. 학번(5자리) + 생년월일로 인증 가능합니다.","zh":"不知道注册邮箱？点击【发送验证码】后，若邮箱未注册，将自动出现学号验证界面，可用学号（5位）+出生日期验证。","pos":269507,"src":"attr"},{"en":"Enter Verification Code","ko":"인증코드 입력","zh":"输入验证码","pos":270136,"src":"attr"},{"en":"Enter the 6-digit code sent to your email and tap [Verify]. Valid for 10 minutes.","ko":"이메일로 발송된 6자리 코드를 입력 후 [확인]을 누르세요. 코드는 10분간 유효합니다.","zh":"输入邮箱收到的6位验证码，点击【验证】，有效期10分钟。","pos":270244,"src":"attr"},{"en":"No code? ① Check spam ② Tap [Resend] (button changes after first send) ③ Or tap 'Still no code? Verify with Student ID →' to verify instead.","ko":"코드가 안 왔다면? ① 스팸함 확인 ② [재발송] 버튼 클릭 (발송 후 버튼 텍스트가 바뀝니다) ③ 또는 '그래도 못 받으셨나요? 학번으로 인증하기 →' 링크로 바로 대체 인증할 수 있습니다.","zh":"未收到验证码？① 检查垃圾邮件 ② 点击【重新发送】（发送后按钮文字会改变） ③ 或点击'仍未收到？改用学号验证 →'直接改用学号验证。","pos":270528,"src":"attr"},{"en":"Student ID Confirmation","ko":"학번 확인","zh":"学号确认","pos":271169,"src":"attr"},{"en":"For security, enter your child's 5-digit Student ID and tap [Add]. If you have more than one child at BHA, enter each child's ID one at a time to add them, then tap [Continue] when done.","ko":"보안을 위해 자녀의 학번(5자리)을 입력하고 [추가]를 누르세요. 형제자매가 있다면 학번을 한 명씩 더 입력해서 추가할 수 있고, 다 추가하셨으면 [계속하기]를 눌러주세요.","zh":"出于安全考虑，请输入子女的5位学号并点击【添加】。如有多名子女在读，可依次输入各自学号逐一添加，添加完成后点击【继续】。","pos":271272,"src":"attr"},{"en":"Don't know the Student ID? Contact Student Records (studentrecord@branksome.asia / 064-902-5014).","ko":"학번을 모르시나요? Student Records(studentrecord@branksome.asia / 064-902-5014)로 문의해 주세요.","zh":"不知道学号？请联系 Student Records（studentrecord@branksome.asia / 064-902-5014）。","pos":271787,"src":"attr"},{"en":"Confirm Student(s)","ko":"학생 확인","zh":"确认学生","pos":272336,"src":"attr"},{"en":"The added student is auto-selected. If you added more than one child, check the box for each student you're applying for.","ko":"추가하신 학생이 자동으로 선택됩니다. 여러 명을 추가하셨다면 신청할 학생에 체크해 주세요.","zh":"已添加的学生将自动选中。如添加了多名学生，请勾选要申请的学生。","pos":272434,"src":"attr"},{"en":"Acknowledge & Consent","ko":"처리기간 확인 및 동의","zh":"确认并同意","pos":272906,"src":"attr"},{"en":"Review the processing time notice and check 'I confirm I understand', then tap [Next].","ko":"처리 기간 및 개인정보 동의 내용을 확인 후 '네, 위의 내용을 이해했습니다.'를 체크하고 [다음]을 누르세요.","zh":"阅读说明后，勾选'是的，我理解上述内容'，点击【下一步】。","pos":273022,"src":"attr"},{"en":"Select Reason","ko":"발급 사유 선택","zh":"选择申请原因","pos":273481,"src":"attr"},{"en":"Select your reason. Selecting 'Apply to Another School' adds a transfer information step.","ko":"신청 목적에 맞는 발급 사유를 선택하세요. '타학교 입학 지원' 선택 시 전학 정보 입력 화면이 추가됩니다.","zh":"选择原因。选择'申请其他学校'将增加转学信息步骤。","pos":273582,"src":"attr"},{"en":"Select Document Type(s)","ko":"요청 서류 선택","zh":"选择资料类别","pos":274036,"src":"attr"},{"en":"You may select multiple: Certificate of Enrollment, Report Cards, Recommendation Letter, Other.","ko":"복수 선택 가능: 재학증명서, 리포트 카드, 추천서, 기타.","zh":"可多选：在籍证明、成绩单、推荐信、其他。","pos":274147,"src":"attr"},{"en":"Applying for 2+ children at once? If you select Recommendation Letter, a separate teacher/deadline/applying-school field group appears for each child.","ko":"자녀 2명 이상을 함께 신청 중이신가요? 추천서를 선택하면 각 자녀별로 교사·마감일·지원 학교 입력칸이 따로 나타납니다.","zh":"同时为2名以上子女申请？选择推荐信后，将为每位子女分别显示教师/截止日期/申请学校的输入栏。","pos":274405,"src":"attr"},{"en":"Transfer Info (only if 'Apply to Another School')","ko":"전학 정보 입력 (타학교 지원 시에만)","zh":"转学信息（仅限申请其他学校）","pos":274954,"src":"attr"},{"en":"Enter the reason for applying, BHA expected withdrawal date, and expected start date at new school.","ko":"① 지원 학교 선택 이유 및 BHA 전학/퇴교 이유 ② BHA 예상 퇴교 날짜 ③ 지원 학교 예상 입학 날짜","zh":"① 申请原因及离开BHA原因 ② 预计离校日期 ③ 预计入读新学校日期","pos":275125,"src":"attr"},{"en":"Delivery Method","ko":"발급 방법 선택","zh":"选择发放方式","pos":275599,"src":"attr"},{"en":"Online delivery — enter recipient name & email. Pick-up at School Center — select print option (single/double sided).","ko":"온라인 발송 — 수신자 이름·이메일 입력 필요. 직접 수령 — 스쿨센터 리셉션, 인쇄 방법 선택(단면/양면).","zh":"在线发送—需填写收件人姓名和邮箱。学生服务中心自取—需选择打印方式（单面/双面）。","pos":275702,"src":"attr"},{"en":"Submit","ko":"최종 제출","zh":"提交","pos":276203,"src":"attr"},{"en":"Review all entries and tap [Submit]. A confirmation email will be sent after submission.","ko":"모든 항목 확인 후 [제출]을 누르세요. 제출 완료 후 확인 메일이 발송됩니다.","zh":"确认所有信息后点击【提交】，系统将发送确认邮件。","pos":276287,"src":"attr"}]},{"key":"faq","title":"13. FAQ","items":[{"en":"Q. I didn't receive the verification code.","ko":"Q. 인증코드가 오지 않아요.","zh":"Q. 未收到验证码。","pos":276689,"src":"attr"},{"en":"① Check spam/junk folder ② Tap [Resend] (button text changes after first send) ③ Tap 'Still no code? Verify with Student ID →' to verify instead ④ Confirm you're using your school-registered email.","ko":"① 스팸함 확인 ② [재발송] 버튼 클릭 (발송 후 버튼 텍스트가 바뀝니다) ③ '그래도 못 받으셨나요? 학번으로 인증하기 →' 링크로 대체 인증 ④ 학교 등록 이메일인지 확인.","zh":"① 检查垃圾邮件 ② 点击【重新发送】 ③ 点击'仍未收到？改用学号验证 →'改用学号验证 ④ 确认是学校注册邮箱。","pos":276847,"src":"attr"},{"en":"Q. I don't know my registered email.","ko":"Q. 등록 이메일을 모르겠어요.","zh":"Q. 不知道注册邮箱。","pos":277356,"src":"attr"},{"en":"Tap [Send Code]. If the email isn't registered, the Student ID verification screen appears automatically. Use your 5-digit Student ID + date of birth.","ko":"[인증코드 발송]을 눌렀을 때 등록되지 않은 이메일이면 학번 인증 화면이 자동으로 나타납니다. 학번(5자리) + 생년월일로 인증 가능합니다.","zh":"点击【发送验证码】后，若邮箱未注册，将自动出现学号验证界面，可用学号（5位）+出生日期验证。","pos":277511,"src":"attr"},{"en":"Q. My child's Student ID doesn't match.","ko":"Q. 학번이 일치하지 않아요.","zh":"Q. 学号不匹配。","pos":277937,"src":"attr"},{"en":"Please double-check the 5-digit Student ID (including any leading zero). If it still doesn't match, contact Student Records (studentrecord@branksome.asia) for help. For security, repeated failed attempts will be temporarily blocked.","ko":"학번 5자리(앞자리 0 포함)를 다시 확인해 주세요. 그래도 일치하지 않으면 Student Records(studentrecord@branksome.asia)로 문의해 주세요. 보안을 위해 여러 번 실패하면 일시적으로 시도가 제한됩니다.","zh":"请重新核对5位学号（含开头的0）。若仍不匹配，请联系 Student Records（studentrecord@branksome.asia）。出于安全考虑，多次失败后将暂时限制尝试。","pos":278091,"src":"attr"},{"en":"Q. I submitted, but now want to apply for another child too.","ko":"Q. 제출 완료 후 다른 자녀도 추가로 신청하고 싶어요.","zh":"Q. 提交后想为其他子女追加申请。","pos":278756,"src":"attr"},{"en":"On the completion screen, tap [Add another child] and enter that child's Student ID — no need to verify your email again, as long as it's within 60 minutes of your original verification. After 60 minutes, you'll be asked to verify your email again.","ko":"완료 화면에서 [다른 자녀 추가로 신청하기]를 누르고 학번만 입력하시면 됩니다. 처음 이메일 인증 후 60분 이내라면 다시 인증할 필요 없습니다. 60분이 지나면 이메일 인증을 다시 진행해 주세요.","zh":"在完成页面点击【添加其他子女申请】并输入学号即可。只要在首次邮箱验证后60分钟以内，无需重新验证邮箱；超过60分钟则需要重新验证。","pos":278969,"src":"attr"},{"en":"Q. LOR for non-NLCS schools?","ko":"Q. NLCS 외 학교 추천서 신청은?","zh":"Q. 非NLCS学校推荐信申请？","pos":279578,"src":"attr"},{"en":"To request a recommendation from a Branksome Hall Asia teacher, please register the teacher's email address in the receiving school's application portal. The receiving school will then send the recommendation link directly to the teacher. After registering the email, please be sure to contact the School PA to let them know.","ko":"브랭섬홀아시아 선생님께 추천서를 요청하시려면 지원 학교 포털에 선생님 이메일을 등록해 주세요. 등록된 정보를 통해 학교 측에서 선생님께 직접 추천서 링크를 보내게 됩니다. 이메일 등록을 완료하신 후에는 반드시 School PA에게 연락하여 해당 사실을 알려주세요.","zh":"如需向布兰克森霍尔亚洲老师申请推荐信，请在申请学校的门户网站上登记老师的邮箱地址。该学校将直接向老师发送推荐信链接。登记完成后，请务必联系 School PA 告知此事。","pos":279738,"src":"attr"},{"en":"Q. Can I request G9–G12 transcripts here?","ko":"Q. G9–G12 성적표도 신청 가능한가요?","zh":"Q. 可以在此申请G9–G12成绩单吗？","pos":280518,"src":"attr"},{"en":"Not here. Contact universitycounselling@branksome.asia directly.","ko":"이 신청서를 통해 처리되지 않습니다. universitycounselling@branksome.asia 로 직접 문의하세요.","zh":"不通过本表格处理，请直接联系 universitycounselling@branksome.asia。","pos":280701,"src":"attr"},{"en":"Q. Report cards only — do I still need to submit this form?","ko":"Q. 리포트 카드만 필요한데 신청해야 하나요?","zh":"Q. 只需成绩单也要填表吗？","pos":281031,"src":"attr"},{"en":"Enrolled students can download report cards directly from ManageBac (student or parent account).","ko":"재학생은 ManageBac에 학생/학부모 계정으로 로그인하면 직접 다운로드할 수 있습니다.","zh":"在读学生可直接登录ManageBac（学生或家长账号）下载。","pos":281228,"src":"attr"}]}];
+var STORAGE_KEY = 'bha_arlor_zh_review_v1';
+
+var edits = {}; // key -> new zh text (only when different from original)
+var currentStep = 0;
+
+function keyFor(stepKey, i){ return stepKey + '::' + i; }
+
+function totalEditedCount(){ return Object.keys(edits).length; }
+
+function loadSavedEdits(){
+  try {
+    var raw = localStorage.getItem(STORAGE_KEY);
+    if (raw) edits = JSON.parse(raw) || {};
+  } catch(e) { edits = {}; }
+}
+function persistEdits(){
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(edits)); } catch(e) {}
+}
+
+function renderStepNav(){
+  var nav = document.getElementById('stepNav');
+  nav.innerHTML = '';
+  STEPS.forEach(function(s, idx){
+    var editedInStep = s.items.filter(function(it, i){ return edits[keyFor(s.key, i)] !== undefined; }).length;
+    var tab = document.createElement('div');
+    tab.className = 'step-tab' + (idx === currentStep ? ' active' : '');
+    tab.innerHTML = '<span>' + s.title + '</span>' + (editedInStep ? '<span class="badge">' + editedInStep + '</span>' : '');
+    tab.onclick = function(){ currentStep = idx; renderAll(); window.scrollTo({top:0, behavior:'smooth'}); };
+    nav.appendChild(tab);
+  });
+  var activeTab = nav.children[currentStep];
+  if (activeTab) activeTab.scrollIntoView({ block: 'nearest', inline: 'center' });
+  updateStepsArrows();
+}
+
+function updateStepsArrows(){
+  var nav = document.getElementById('stepNav');
+  var left = document.getElementById('stepsArrowLeft');
+  var right = document.getElementById('stepsArrowRight');
+  if (!nav || !left || !right) return;
+  left.disabled = nav.scrollLeft <= 2;
+  right.disabled = nav.scrollLeft + nav.clientWidth >= nav.scrollWidth - 2;
+}
+
+function autosize(ta){
+  ta.style.height = 'auto';
+  ta.style.height = (ta.scrollHeight) + 'px';
+}
+
+function renderStep(){
+  var s = STEPS[currentStep];
+  document.getElementById('stepTitle').textContent = s.title;
+  var editedInStep = s.items.filter(function(it, i){ return edits[keyFor(s.key, i)] !== undefined; }).length;
+  document.getElementById('stepCount').textContent = s.items.length + ' phrase' + (s.items.length === 1 ? '' : 's') + (editedInStep ? ' · ' + editedInStep + ' edited' : '');
+  document.getElementById('stepNote').textContent = s.items.length
+    ? 'Click into any Chinese text box to edit it directly. Edited items are marked with a green bar on the left.'
+    : '';
+
+  var list = document.getElementById('cardList');
+  list.innerHTML = '';
+  if (!s.items.length) {
+    list.innerHTML = '<div class="empty-state">No text to review in this step.</div>';
+    return;
+  }
+  s.items.forEach(function(item, i){
+    var k = keyFor(s.key, i);
+    var isEdited = edits[k] !== undefined;
+    var card = document.createElement('div');
+    card.className = 'card' + (isEdited ? ' edited' : '');
+    card.innerHTML =
+      '<div class="rail"></div>' +
+      '<div class="card-body">' +
+        (item.en ? '<p class="ref-en">' + escapeHtml(item.en) + '</p>' : '') +
+        '<div class="zh-row">' +
+          '<textarea class="zh-input zh" rows="1" data-key="' + k + '"></textarea>' +
+          '<button class="reset-btn" title="Revert to original">↺</button>' +
+        '</div>' +
+      '</div>';
+    var ta = card.querySelector('textarea');
+    ta.value = isEdited ? edits[k] : item.zh;
+    var resetBtn = card.querySelector('.reset-btn');
+    ta.addEventListener('input', function(){
+      autosize(ta);
+      if (ta.value === item.zh) {
+        delete edits[k];
+        card.classList.remove('edited');
+      } else {
+        edits[k] = ta.value;
+        card.classList.add('edited');
+      }
+      persistEdits();
+      updateCounters();
+    });
+    resetBtn.addEventListener('click', function(){
+      ta.value = item.zh;
+      delete edits[k];
+      card.classList.remove('edited');
+      autosize(ta);
+      persistEdits();
+      updateCounters();
+    });
+    list.appendChild(card);
+    autosize(ta);
+  });
+}
+
+function escapeHtml(s){
+  return String(s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+function updateCounters(){
+  document.getElementById('editedCount').textContent = totalEditedCount();
+  renderStepNav();
+  var s = STEPS[currentStep];
+  var editedInStep = s.items.filter(function(it, i){ return edits[keyFor(s.key, i)] !== undefined; }).length;
+  document.getElementById('stepCount').textContent = s.items.length + ' phrase' + (s.items.length === 1 ? '' : 's') + (editedInStep ? ' · ' + editedInStep + ' edited' : '');
+  document.getElementById('bbStatus').innerHTML = totalEditedCount()
+    ? 'You have edited <b>' + totalEditedCount() + '</b> phrase' + (totalEditedCount() === 1 ? '' : 's') + ' so far.'
+    : 'No edits yet.';
+}
+
+function renderAll(){
+  renderStepNav();
+  renderStep();
+  document.getElementById('prevBtn').disabled = currentStep === 0;
+  document.getElementById('nextBtn').disabled = currentStep === STEPS.length - 1;
+  updateCounters();
+}
+
+document.getElementById('prevBtn').onclick = function(){ if (currentStep > 0) { currentStep--; renderAll(); window.scrollTo({top:0, behavior:'smooth'}); } };
+document.getElementById('nextBtn').onclick = function(){ if (currentStep < STEPS.length - 1) { currentStep++; renderAll(); window.scrollTo({top:0, behavior:'smooth'}); } };
+
+function collectEditsList(){
+  var list = [];
+  STEPS.forEach(function(s){
+    s.items.forEach(function(item, i){
+      var k = keyFor(s.key, i);
+      if (edits[k] !== undefined) list.push({ step: s.title, en: item.en, original: item.zh, suggested: edits[k] });
+    });
+  });
+  return list;
+}
+
+function buildResultText(list){
+  if (!list.length) return '(No edits yet)';
+  var lines = [];
+  var lastStep = null;
+  list.forEach(function(ed){
+    if (ed.step !== lastStep) { lines.push('■ ' + ed.step); lastStep = ed.step; }
+    lines.push('EN: ' + ed.en + '\n  Original: ' + ed.original + '\n  Suggested: ' + ed.suggested + '\n');
+  });
+  return lines.join('\n');
+}
+
+function copyTextToClipboard(text, onDone){
+  var ta = document.getElementById('resultText');
+  ta.select();
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(text).then(onDone).catch(function(){
+      try { document.execCommand('copy'); } catch(e) {}
+      onDone();
+    });
+  } else {
+    try { document.execCommand('copy'); } catch(e) {}
+    onDone();
+  }
+}
+
+var SUBMIT_URL = 'https://script.google.com/macros/s/AKfycbzO2CzS5txnr_09L171aSrssNHaAi4orGfUkM8wJbGK2HtXcauMxNDId6as06UFaOYk/exec';
+
+function submitEdits(list){
+  var cbName = 'zhSubmitCb_' + Date.now();
+  var script = document.createElement('script');
+  var done = false;
+  var timeoutId = setTimeout(function(){
+    if (done) return;
+    done = true;
+    delete window[cbName];
+    if (script.parentNode) script.parentNode.removeChild(script);
+    document.getElementById('modalTitle').textContent = 'No response';
+    document.getElementById('modalHint').textContent = 'Could not confirm submission (no response from server). Please copy the text below and send it manually, just in case.';
+  }, 20000);
+  window[cbName] = function(data){
+    if (done) return;
+    done = true;
+    clearTimeout(timeoutId);
+    delete window[cbName];
+    if (script.parentNode) script.parentNode.removeChild(script);
+    if (data && data.success) {
+      document.getElementById('modalTitle').textContent = '✓ Submitted';
+      document.getElementById('modalHint').textContent = 'Thank you! Your edits have been sent to Student Records.';
+    } else {
+      document.getElementById('modalTitle').textContent = 'Submission failed';
+      document.getElementById('modalHint').textContent = 'Something went wrong on the server side. Please copy the text below and send it manually, just in case.';
+    }
+  };
+  script.onerror = function(){
+    if (done) return;
+    done = true;
+    clearTimeout(timeoutId);
+    delete window[cbName];
+    if (script.parentNode) script.parentNode.removeChild(script);
+    document.getElementById('modalTitle').textContent = 'Network error';
+    document.getElementById('modalHint').textContent = 'Could not reach the server. Please copy the text below and send it manually, just in case.';
+  };
+  script.src = SUBMIT_URL + '?action=zhReviewSubmit&edits=' + encodeURIComponent(JSON.stringify(list)) + '&callback=' + cbName;
+  document.head.appendChild(script);
+}
+
+document.getElementById('copyBtn').onclick = function(){
+  var list = collectEditsList();
+  var text = buildResultText(list);
+  document.getElementById('resultText').value = text;
+  document.getElementById('overlay').classList.add('show');
+
+  if (!list.length) {
+    document.getElementById('modalTitle').textContent = 'Submit Review';
+    document.getElementById('modalHint').textContent = 'No edits yet. Review the phrases above, then click this button again once you\'re done.';
+    return;
+  }
+
+  document.getElementById('modalTitle').textContent = 'Submitting…';
+  document.getElementById('modalHint').textContent = 'Sending your ' + list.length + ' edited phrase' + (list.length === 1 ? '' : 's') + '…';
+  submitEdits(list);
+};
+document.getElementById('closeModal').onclick = function(){ document.getElementById('overlay').classList.remove('show'); };
+document.getElementById('overlay').onclick = function(e){ if (e.target === document.getElementById('overlay')) document.getElementById('overlay').classList.remove('show'); };
+
+document.getElementById('copyToClipboard').onclick = function(){
+  copyTextToClipboard(document.getElementById('resultText').value, function(){
+    var flag = document.getElementById('copiedFlag');
+    flag.classList.add('show');
+    setTimeout(function(){ flag.classList.remove('show'); }, 2000);
+  });
+};
+
+loadSavedEdits();
+var restoredCount = totalEditedCount();
+if (restoredCount > 0) {
+  var banner = document.getElementById('restoreBanner');
+  banner.textContent = 'Welcome back — restored ' + restoredCount + ' edited phrase' + (restoredCount === 1 ? '' : 's') + ' from your last visit on this device.';
+  banner.classList.add('show');
+}
+document.getElementById('clearLink').onclick = function(){
+  if (!confirm('Clear all saved edits on this device? This cannot be undone.')) return;
+  edits = {};
+  persistEdits();
+  document.getElementById('restoreBanner').classList.remove('show');
+  renderAll();
+};
+
+document.getElementById('stepsArrowLeft').onclick = function(){
+  document.getElementById('stepNav').scrollBy({ left: -160, behavior: 'smooth' });
+};
+document.getElementById('stepsArrowRight').onclick = function(){
+  document.getElementById('stepNav').scrollBy({ left: 160, behavior: 'smooth' });
+};
+document.getElementById('stepNav').addEventListener('scroll', updateStepsArrows);
+window.addEventListener('resize', updateStepsArrows);
+
+renderAll();
+</script>
