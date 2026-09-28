@@ -409,7 +409,8 @@ var SUBMIT_URL = 'https://script.google.com/macros/s/AKfycbzO2CzS5txnr_09L171aSr
 // 실패했다. 숨은 <form method="POST"> + <iframe>으로 보내면 크기 제한이 사실상 없다.
 // 다만 이 방식은 교차 도메인이라 응답 내용을 화면에서 못 읽으므로, 별도의 아주 작은
 // JSONP 요청(zhReviewCheckStatus)으로 "서버가 진짜로 받았는지"를 짧은 간격으로 재확인한다.
-function submitEdits(list){
+function submitEdits(list, onComplete){
+  onComplete = onComplete || function(){};
   var submissionId = 'sub_' + Date.now() + '_' + Math.random().toString(36).slice(2, 8);
 
   var iframeName = 'zhSubmitFrame_' + Date.now();
@@ -467,6 +468,10 @@ function submitEdits(list){
         cleanup();
         document.getElementById('modalTitle').textContent = '✓ Submitted';
         document.getElementById('modalHint').textContent = 'Thank you! Your edits have been sent to Student Records.';
+        // 자동 전송이든 수동 "Submit My Edits" 클릭이든, 한 번 성공하면 다음 방문 때
+        // 같은 내용이 자동으로 또 전송되지 않도록 기록해 둔다.
+        try { localStorage.setItem(STORAGE_KEY + '_autosent', '1'); } catch(e) {}
+        onComplete(true);
       } else {
         retryOrGiveUp();
       }
@@ -489,6 +494,7 @@ function submitEdits(list){
       cleanup();
       document.getElementById('modalTitle').textContent = 'Could not confirm submission';
       document.getElementById('modalHint').textContent = 'Your edits were sent, but we could not confirm receipt. To be safe, please also copy the text below and send it manually.';
+      onComplete(false);
     }
   }
   setTimeout(checkStatus, 1000);
@@ -527,6 +533,25 @@ if (restoredCount > 0) {
   var banner = document.getElementById('restoreBanner');
   banner.textContent = 'Welcome back — restored ' + restoredCount + ' edited phrase' + (restoredCount === 1 ? '' : 's') + ' from your last visit on this device.';
   banner.classList.add('show');
+}
+
+// 리뷰어가 수정을 끝낸 뒤 "Submit My Edits"를 누르는 걸 잊거나, 누를 필요 자체를 없애기 위해
+// 저장된 수정사항이 있고 아직 자동 전송된 적이 없으면 페이지를 여는 것만으로 자동 제출한다.
+// 한 번 성공적으로 전송되면 AUTOSENT_KEY를 남겨서, 이후 재방문 시 같은 내용을 반복 전송하지 않는다
+// (그 뒤에 이어서 수정을 더 하면 "Submit My Edits" 버튼으로 다시 수동 제출 가능).
+var AUTOSENT_KEY = STORAGE_KEY + '_autosent';
+if (restoredCount > 0 && !localStorage.getItem(AUTOSENT_KEY)) {
+  var autoBanner = document.getElementById('restoreBanner');
+  autoBanner.textContent = 'Welcome back — automatically sending your ' + restoredCount + ' saved edit' + (restoredCount === 1 ? '' : 's') + ' to Student Records…';
+  autoBanner.classList.add('show');
+  submitEdits(collectEditsList(), function(success){
+    if (success) {
+      localStorage.setItem(AUTOSENT_KEY, '1');
+      autoBanner.textContent = '✓ Your saved edits have been sent to Student Records. Thank you!';
+    } else {
+      autoBanner.textContent = 'Could not confirm your edits were sent automatically. Please click "Submit My Edits" below to try again.';
+    }
+  });
 }
 document.getElementById('clearLink').onclick = function(){
   if (!confirm('Clear all saved edits on this device? This cannot be undone.')) return;
