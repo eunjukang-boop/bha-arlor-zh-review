@@ -404,43 +404,94 @@ function copyTextToClipboard(text, onDone){
 
 var SUBMIT_URL = 'https://script.google.com/macros/s/AKfycbzO2CzS5txnr_09L171aSrssNHaAi4orGfUkM8wJbGK2HtXcauMxNDId6as06UFaOYk/exec';
 
+// 예전엔 수정 내역을 URL 안에 통째로 담아 보냈는데(GET/JSONP), 검토가 많이 진행될수록
+// URL이 너무 길어져(216개 문구 다 고치면 10만자 이상) 구글 서버가 처리를 거부해 제출이
+// 실패했다. 숨은 <form method="POST"> + <iframe>으로 보내면 크기 제한이 사실상 없다.
+// 다만 이 방식은 교차 도메인이라 응답 내용을 화면에서 못 읽으므로, 별도의 아주 작은
+// JSONP 요청(zhReviewCheckStatus)으로 "서버가 진짜로 받았는지"를 짧은 간격으로 재확인한다.
 function submitEdits(list){
-  var cbName = 'zhSubmitCb_' + Date.now();
-  var script = document.createElement('script');
-  var done = false;
-  var timeoutId = setTimeout(function(){
-    if (done) return;
-    done = true;
-    delete window[cbName];
-    if (script.parentNode) script.parentNode.removeChild(script);
-    document.getElementById('modalTitle').textContent = 'No response';
-    document.getElementById('modalHint').textContent = 'Could not confirm submission (no response from server). Please copy the text below and send it manually, just in case.';
-  }, 20000);
-  window[cbName] = function(data){
-    if (done) return;
-    done = true;
-    clearTimeout(timeoutId);
-    delete window[cbName];
-    if (script.parentNode) script.parentNode.removeChild(script);
-    if (data && data.success) {
-      document.getElementById('modalTitle').textContent = '✓ Submitted';
-      document.getElementById('modalHint').textContent = 'Thank you! Your edits have been sent to Student Records.';
+  var submissionId = 'sub_' + Date.now() + '_' + Math.random().toString(36).slice(2, 8);
+
+  var iframeName = 'zhSubmitFrame_' + Date.now();
+  var iframe = document.createElement('iframe');
+  iframe.name = iframeName;
+  iframe.style.display = 'none';
+  document.body.appendChild(iframe);
+
+  var form = document.createElement('form');
+  form.method = 'POST';
+  form.action = SUBMIT_URL;
+  form.target = iframeName;
+  form.style.display = 'none';
+
+  function addField(name, value){
+    var input = document.createElement('input');
+    input.type = 'hidden';
+    input.name = name;
+    input.value = value;
+    form.appendChild(input);
+  }
+  addField('action', 'zhReviewSubmit');
+  addField('edits', JSON.stringify(list));
+  addField('submissionId', submissionId);
+
+  document.body.appendChild(form);
+  form.submit();
+
+  function cleanup(){
+    if (form.parentNode) form.parentNode.removeChild(form);
+    if (iframe.parentNode) iframe.parentNode.removeChild(iframe);
+  }
+
+  var attempts = 0;
+  var maxAttempts = 10; // 1.5초 간격 x 10회 = 약 15초
+  function checkStatus(){
+    attempts++;
+    var cbName = 'zhStatusCb_' + Date.now() + '_' + attempts;
+    var script = document.createElement('script');
+    var settled = false;
+    var timeoutId = setTimeout(function(){
+      if (settled) return;
+      settled = true;
+      delete window[cbName];
+      if (script.parentNode) script.parentNode.removeChild(script);
+      retryOrGiveUp();
+    }, 4000);
+    window[cbName] = function(data){
+      if (settled) return;
+      settled = true;
+      clearTimeout(timeoutId);
+      delete window[cbName];
+      if (script.parentNode) script.parentNode.removeChild(script);
+      if (data && data.success && data.done) {
+        cleanup();
+        document.getElementById('modalTitle').textContent = '✓ Submitted';
+        document.getElementById('modalHint').textContent = 'Thank you! Your edits have been sent to Student Records.';
+      } else {
+        retryOrGiveUp();
+      }
+    };
+    script.onerror = function(){
+      if (settled) return;
+      settled = true;
+      clearTimeout(timeoutId);
+      delete window[cbName];
+      if (script.parentNode) script.parentNode.removeChild(script);
+      retryOrGiveUp();
+    };
+    script.src = SUBMIT_URL + '?action=zhReviewCheckStatus&id=' + encodeURIComponent(submissionId) + '&callback=' + cbName;
+    document.head.appendChild(script);
+  }
+  function retryOrGiveUp(){
+    if (attempts < maxAttempts) {
+      setTimeout(checkStatus, 1500);
     } else {
-      document.getElementById('modalTitle').textContent = 'Submission failed';
-      document.getElementById('modalHint').textContent = 'Something went wrong on the server side. Please copy the text below and send it manually, just in case.';
+      cleanup();
+      document.getElementById('modalTitle').textContent = 'Could not confirm submission';
+      document.getElementById('modalHint').textContent = 'Your edits were sent, but we could not confirm receipt. To be safe, please also copy the text below and send it manually.';
     }
-  };
-  script.onerror = function(){
-    if (done) return;
-    done = true;
-    clearTimeout(timeoutId);
-    delete window[cbName];
-    if (script.parentNode) script.parentNode.removeChild(script);
-    document.getElementById('modalTitle').textContent = 'Network error';
-    document.getElementById('modalHint').textContent = 'Could not reach the server. Please copy the text below and send it manually, just in case.';
-  };
-  script.src = SUBMIT_URL + '?action=zhReviewSubmit&edits=' + encodeURIComponent(JSON.stringify(list)) + '&callback=' + cbName;
-  document.head.appendChild(script);
+  }
+  setTimeout(checkStatus, 1000);
 }
 
 document.getElementById('copyBtn').onclick = function(){
